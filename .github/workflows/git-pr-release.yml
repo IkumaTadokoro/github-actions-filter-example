@@ -1,0 +1,38 @@
+name: git-pr-release
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  git-pr-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Get the branch name
+        id: get-branch-name
+        run: echo ::set-output name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//-/g')
+        shell: bash
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # git-pr-release needs the git histories
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - name: Install git-pr-release
+        run: gem install --no-document git-pr-release --version 2.2.0
+      - name: Update git config
+        run: git config --global --add safe.directory "$(pwd)"
+      - name: Create PR
+        run: git-pr-release
+        env:
+          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_BRANCH_PRODUCTION: ${{ steps.get-branch-name.outputs.BRANCH_NAME == 'develop' && 'master' || 'main'}}  }}}
+          GIT_PR_RELEASE_BRANCH_STAGING: ${{ steps.get-branch-name.outputs.BRANCH_NAME}}
+          GIT_PR_RELEASE_LABELS: release
+          GIT_PR_RELEASE_TEMPLATE: .github/PR_RELEASE_TEMPLATE.erb
+          TZ: Asia/Tokyo

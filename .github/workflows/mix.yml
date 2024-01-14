@@ -10,4 +10,4 @@ jobs:
         version: [10.x, 12.x, 14.x]
     steps:
       - name: Run Mix
-        run: echo "Hello JavaScript"
+        run: exit 1

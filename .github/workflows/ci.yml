@@ -31,7 +31,6 @@ jobs:
     uses: ./.github/workflows/ts.yml
 
   mix:
-    if: needs.changes.outputs.js == 'true' || needs.changes.outputs.ts == 'true'
     needs: changes
     uses: ./.github/workflows/mix.yml
 

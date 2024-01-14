@@ -18,6 +18,7 @@ jobs:
         id: changes
         with:
           filters: .github/file-filters.yml
+          base: "develop"
 
   js:
     needs: changes

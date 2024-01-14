@@ -13,7 +13,7 @@ chore: develop to main
 <% end -%>
 
 ### その他
-<% prs.reject { |key, value| ['feat', 'fix'].include?(key) }.values.each do |pr| -%>
+<% prs.reject { |k, v| ['feat', 'fix'].include?(k) }.values.flatten.each do |pr| -%>
 <%=  pr.to_checklist_item %>
 <% end -%>
 

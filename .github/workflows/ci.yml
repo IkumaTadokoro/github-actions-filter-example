@@ -45,5 +45,4 @@ jobs:
         if: needs.js.result == 'failure' || needs.ts.result == 'failure' || needs.mix.result == 'failure'
         run: exit 1
       - name: Pass Status Check
-        if: steps.status_check.conclusion == 'skipped'
         run: exit 0

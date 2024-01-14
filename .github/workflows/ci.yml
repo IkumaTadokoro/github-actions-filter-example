@@ -11,7 +11,7 @@ jobs:
       pull-requests: read
     outputs:
       js: ${{ steps.changes.outputs.js }}
-      ts: ${{ steps.changes.outputs.ruby }}
+      ts: ${{ steps.changes.outputs.ts }}
     steps:
       - uses: actions/checkout@v4.1.0
       - uses: dorny/paths-filter@v2.11.1

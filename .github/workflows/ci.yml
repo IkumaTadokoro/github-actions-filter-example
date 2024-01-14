@@ -18,7 +18,7 @@ jobs:
         id: changes
         with:
           filters: .github/file-filters.yml
-          base: ${{ github.event.base_ref }}
+          base: ${{ contains(github.ref, 'master') && github.ref || contains(github.ref, 'release') && github.ref || contains(github.ref, 'patch') && github.ref || github.event.repository.default_branch }}
 
   js:
     if: needs.changes.outputs.js == 'true'

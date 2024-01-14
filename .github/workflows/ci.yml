@@ -40,6 +40,7 @@ jobs:
   status-check:
     needs: ["js", "ts", "mix"]
     runs-on: ubuntu-latest
-    if: failure()
     steps:
-      - run: exit 1
+      - name: Check All Test Result
+        if: needs.js.result == 'failure' || needs.ts.result == 'failure' || needs.mix.result == 'failure'
+        run: exit 1

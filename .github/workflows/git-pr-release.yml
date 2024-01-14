@@ -11,10 +11,6 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - name: Get the branch name
-        id: get-branch-name
-        run: echo ::set-output name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//-/g')
-        shell: bash
       - name: Check out
         uses: actions/checkout@v4
         with:
@@ -31,8 +27,8 @@ jobs:
         run: git-pr-release
         env:
           GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GIT_PR_RELEASE_BRANCH_PRODUCTION: ${{ steps.get-branch-name.outputs.BRANCH_NAME == 'develop' && 'master' || 'main'}}  }}}
-          GIT_PR_RELEASE_BRANCH_STAGING: ${{ steps.get-branch-name.outputs.BRANCH_NAME}}
+          GIT_PR_RELEASE_BRANCH_PRODUCTION: main
+          GIT_PR_RELEASE_BRANCH_STAGING: develop
           GIT_PR_RELEASE_LABELS: release
           GIT_PR_RELEASE_TEMPLATE: .github/PR_RELEASE_TEMPLATE.erb
           TZ: Asia/Tokyo

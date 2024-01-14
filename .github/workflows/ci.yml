@@ -21,22 +21,19 @@ jobs:
           base: "develop"
 
   js:
+    if: needs.changes.outputs.js == 'true'
     needs: changes
     uses: ./.github/workflows/js.yml
-    with:
-      activate-job: ${{ needs.changes.outputs.js == 'true' }}
 
   ts:
+    if: needs.changes.outputs.ts == 'true'
     needs: changes
     uses: ./.github/workflows/ts.yml
-    with:
-      activate-job: ${{ needs.changes.outputs.ts == 'true' }}
 
   mix:
+    if: needs.changes.outputs.js == 'true' || needs.changes.outputs.ts == 'true'
     needs: changes
     uses: ./.github/workflows/mix.yml
-    with:
-      activate-job: ${{ needs.changes.outputs.js == 'true' || needs.changes.outputs.ts == 'true' }}
 
   status-check:
     if: ${{ !cancelled() }}

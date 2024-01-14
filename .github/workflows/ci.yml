@@ -37,7 +37,7 @@ jobs:
     with:
       activate-job: ${{ needs.changes.outputs.js == 'true' && needs.changes.outputs.ts == 'true' }}
 
-  status-chekc:
+  status-check:
     needs: ["js", "ts", "mix"]
     runs-on: ubuntu-latest
     if: failure()

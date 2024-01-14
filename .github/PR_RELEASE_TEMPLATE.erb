@@ -1,9 +1,7 @@
 chore: develop to main
 ## リリース内容
-
 <% library_updates, rest = pull_requests.partition { |pr| pr.user.login == 'dependabot' } %>
 <% prs = rest.group_by { |pr| pr.title.split(':')[0] } %>
-
 ### 機能追加
 <% prs['feat'].each do |pr| -%>
 <%=  pr.to_checklist_item %>
@@ -17,7 +15,7 @@ chore: develop to main
 ### その他
 <% prs.reject { |key, value| ['feat', 'fix'].include?(key) }.values.each do |pr| -%>
 <%=  pr.to_checklist_item %>
-<% end -%
+<% end -%>
 
 ### ライブラリアップデート
 <% library_updates.each do |pr| -%>

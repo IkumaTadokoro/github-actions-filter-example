@@ -7,7 +7,7 @@ on:
         type: boolean
 
 jobs:
-  js:
+  ts:
     if: inputs.activate-job
     runs-on: ubuntu-latest
     steps:

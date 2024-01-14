@@ -19,7 +19,8 @@ jobs:
         with:
           filters: .github/file-filters.yml
           base: ${{ github.event.base_ref }}
-      - run: echo ${{ github.event.base_ref}}
+      - run: echo '${{ github.event.base_ref}}'
+      - run: echo 'hoge'
 
   js:
     if: needs.changes.outputs.js == 'true'

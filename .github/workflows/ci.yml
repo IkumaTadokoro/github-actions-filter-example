@@ -41,6 +41,10 @@ jobs:
     needs: ["js", "ts", "mix"]
     runs-on: ubuntu-latest
     steps:
-      - name: Check All Test Result
+      - name: Check All Job Status
+        id: status_check
         if: needs.js.result == 'failure' || needs.ts.result == 'failure' || needs.mix.result == 'failure'
         run: exit 1
+      - name: Pass Status Check
+        if: steps.status_check.conclusion == 'skipped'
+        run: exit 0

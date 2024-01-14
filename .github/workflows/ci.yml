@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      js: ${{ steps.changes.outputs.js }}
+      ts: ${{ steps.changes.outputs.ruby }}
+    steps:
+      - uses: actions/checkout@v4.1.0
+      - uses: dorny/paths-filter@v2.11.1
+        id: changes
+        with:
+          filters: .github/file-filters.yml
+
+  js:
+    needs: changes
+    uses: ./.github/workflows/js.yml
+    with:
+      activate-job: ${{ needs.changes.outputs.js == 'true' }}
+
+  ts:
+    needs: changes
+    uses: ./.github/workflows/ts.yml
+    with:
+      activate-job: ${{ needs.changes.outputs.ts == 'true' }}
+
+  mix:
+    needs: changes
+    uses: ./.github/workflows/mix.yml
+    with:
+      activate-job: ${{ needs.changes.outputs.js == 'true' && needs.changes.outputs.ts == 'true' }}
+
+  status-chekc:
+    needs: ["js", "ts", "mix"]
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - run: exit 1

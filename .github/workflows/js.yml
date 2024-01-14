@@ -1,0 +1,15 @@
+name: JavaScript
+on:
+  workflow_call:
+    inputs:
+      activate-job:
+        required: true
+        type: boolean
+
+jobs:
+  js:
+    if: inputs.activate-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run JavaScript
+        run: echo "Hello JavaScript"

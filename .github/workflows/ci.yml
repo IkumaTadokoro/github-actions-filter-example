@@ -35,7 +35,7 @@ jobs:
     needs: changes
     uses: ./.github/workflows/mix.yml
     with:
-      activate-job: ${{ needs.changes.outputs.js == 'true' && needs.changes.outputs.ts == 'true' }}
+      activate-job: ${{ needs.changes.outputs.js == 'true' || needs.changes.outputs.ts == 'true' }}
 
   status-check:
     needs: ["js", "ts", "mix"]

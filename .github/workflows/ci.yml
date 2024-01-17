@@ -1,7 +1,8 @@
+# コメント
 name: ci
 
 on:
-  push:
+  pull_request:
 
 jobs:
   changes:
@@ -11,7 +12,7 @@ jobs:
       pull-requests: read
     outputs:
       js: ${{ steps.changes.outputs.js }}
-      ts: ${{ steps.changes.outputs.ruby }}
+      ts: ${{ steps.changes.outputs.ts }}
     steps:
       - uses: actions/checkout@v4.1.0
       - uses: dorny/paths-filter@v2.11.1
@@ -20,22 +21,19 @@ jobs:
           filters: .github/file-filters.yml
 
   js:
+    if: needs.changes.outputs.js == 'true'
     needs: changes
     uses: ./.github/workflows/js.yml
-    with:
-      activate-job: ${{ needs.changes.outputs.js == 'true' }}
 
   ts:
+    if: needs.changes.outputs.ts == 'true'
     needs: changes
     uses: ./.github/workflows/ts.yml
-    with:
-      activate-job: ${{ needs.changes.outputs.ts == 'true' }}
 
   mix:
+    if: needs.changes.outputs.js == 'true' || needs.changes.outputs.ts == 'true'
     needs: changes
     uses: ./.github/workflows/mix.yml
-    with:
-      activate-job: ${{ needs.changes.outputs.js == 'true' || needs.changes.outputs.ts == 'true' }}
 
   status-check:
     if: ${{ !cancelled() }}

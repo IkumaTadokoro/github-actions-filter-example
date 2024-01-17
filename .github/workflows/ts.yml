@@ -1,14 +1,9 @@
 name: TypeScript
 on:
   workflow_call:
-    inputs:
-      activate-job:
-        required: true
-        type: boolean
 
 jobs:
-  js:
-    if: inputs.activate-job
+  ts:
     runs-on: ubuntu-latest
     steps:
       - name: Run TypeScript

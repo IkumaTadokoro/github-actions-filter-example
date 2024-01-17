@@ -1,10 +1,10 @@
-name: git-pr-release
+name: git-pr-release-backport
 on:
   push:
     branches:
-      - develop
-      - patch
+      - main
       - release
+      - patch
 
 jobs:
   git-pr-release:
@@ -30,10 +30,10 @@ jobs:
         env:
           GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_PR_RELEASE_BRANCH_PRODUCTION: ${{
-            github.ref_name == 'develop' && 'patch' ||
-            github.ref_name == 'patch' && 'release' ||
-            github.ref_name == 'release' && 'main'
+            github.ref_name == 'main' && 'release' ||
+            github.ref_name == 'release' && 'patch' ||
+            github.ref_name == 'patch' && 'develop'
             }}
           GIT_PR_RELEASE_BRANCH_STAGING: ${{ github.ref_name }}
           GIT_PR_RELEASE_LABELS: release
-          GIT_PR_RELEASE_TEMPLATE: .github/PR_RELEASE_TEMPLATE.erb
+          GIT_PR_RELEASE_TEMPLATE: .github/PR_RELEASE_TEMPLATE_BACKPORT.erb

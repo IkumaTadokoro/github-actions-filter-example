@@ -1,13 +1,17 @@
 name: git-pr-release-backport
 on:
-  push:
+  pull_request:
     branches:
       - main
-      - release
       - patch
+    types: [closed]
 
 jobs:
   git-pr-release:
+    if: ${{
+      github.base_ref == 'main' && github.head_ref == 'release' ||
+      github.base_ref == 'patch' && github.head_ref == 'release'
+      }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -30,10 +34,12 @@ jobs:
         env:
           GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_PR_RELEASE_BRANCH_PRODUCTION: ${{
-            github.ref_name == 'main' && 'release' ||
-            github.ref_name == 'release' && 'patch' ||
-            github.ref_name == 'patch' && 'develop'
+            (github.base_ref == 'main' && github.ref_name == 'release') && 'patch' ||
+            (github.base_ref == 'patch' && github.ref_name == 'release') && 'develop'
             }}
-          GIT_PR_RELEASE_BRANCH_STAGING: ${{ github.ref_name }}
+          GIT_PR_RELEASE_BRANCH_STAGING: ${{
+            (github.base_ref == 'main' && github.ref_name == 'release') && 'release' ||
+            (github.base_ref == 'patch' && github.ref_name == 'release') && 'patch'
+            }}
           GIT_PR_RELEASE_LABELS: release
           GIT_PR_RELEASE_TEMPLATE: .github/PR_RELEASE_TEMPLATE_BACKPORT.erb

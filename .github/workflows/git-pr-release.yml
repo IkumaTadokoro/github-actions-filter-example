@@ -37,7 +37,3 @@ jobs:
           GIT_PR_RELEASE_BRANCH_STAGING: ${{ github.ref_name }}
           GIT_PR_RELEASE_LABELS: release
           GIT_PR_RELEASE_TEMPLATE: .github/PR_RELEASE_TEMPLATE.erb
-
-  ci-for-non-develop-branch:
-    if: github.ref_name != 'develop'
-    uses: ./.github/workflows/ci.yml

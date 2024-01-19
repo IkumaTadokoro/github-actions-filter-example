@@ -1,0 +1,45 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '🚀 機能追加'
+    labels:
+      - 'feature'
+  - title: '🧯 バグ修正'
+    labels:
+      - 'bugfix'
+  - title: '🧰 技術メンテナンス'
+    collapse-after: 3 # 3件以上のPRがある場合は折りたたむ
+    labels: 
+      - 'maintenance'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+exclude-labels: 
+  - 'dependencies'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: minor # 特に上記のラベルのPRがない場合はマイナーバージョンが自動で上がる。
+autolabeler:
+  - label: 'feature'
+    title:
+      - '/feat/i'
+  - label: 'bugfix'
+    title:
+      - '/fix/i'
+  # titleがfeat, fixのいずれにもマッチしない場合
+  - label: 'maintenance'
+    title:
+      - '/^(?!feat|fix).*/i'
+header: |
+  ## リリースアナウンス👨‍🚀
+  リリースを実施しました！変更内容は以下の通りです！📝
+template: |
+
+  $CHANGES

@@ -15,6 +15,7 @@ change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 exclude-labels: 
   - 'dependencies'
+  - 'release'
 version-resolver:
   major:
     labels:
@@ -37,6 +38,6 @@ autolabeler:
   - label: 'maintenance'
     title:
       - '/^(?!feat|fix).*/i'
-header: |
+template: |
   ## リリースアナウンス👨‍🚀
   リリースを実施しました！変更内容は以下の通りです！📝

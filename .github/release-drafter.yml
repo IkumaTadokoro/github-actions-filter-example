@@ -40,6 +40,3 @@ autolabeler:
 header: |
   ## リリースアナウンス👨‍🚀
   リリースを実施しました！変更内容は以下の通りです！📝
-template: |
-
-  $CHANGES

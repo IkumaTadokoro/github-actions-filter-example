@@ -1,3 +1,3 @@
 const hello = (name: string) => {
-  return `Hello ${name}!`;
+  return `Hello ${name}!!`;
 };

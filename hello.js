@@ -1,2 +1,2 @@
-// コメン
+// コメント
 console.log("Hello, World!")

@@ -1,23 +1,12 @@
 <%= "chore(backport): #{ENV.fetch('GIT_PR_RELEASE_BRANCH_STAGING')} to #{ENV.fetch('GIT_PR_RELEASE_BRANCH_PRODUCTION')}" %>
-## リリース内容
-<% library_updates, rest = pull_requests.partition { |pr| pr.user.login == 'dependabot' } %>
-<% prs = rest.group_by { |pr| pr.title.split(':')[0] } %>
-### 機能追加
-<% prs['feat']&.each do |pr| -%>
-<%=  pr.to_checklist_item %>
-<% end -%>
 
-### バグ修正
-<% prs['fix']&.each do |pr| -%>
-<%=  pr.to_checklist_item %>
-<% end -%>
+> [!NOTE]
+> この Pull Request は .github/workflows/git-pr-backport.yml によって自動的に作成されています。
 
-### その他
-<% prs.reject { |k, v| ['feat', 'fix'].include?(k) }.values.flatten.each do |pr| -%>
-<%=  pr.to_checklist_item %>
-<% end -%>
+作成条件と生成されるPull Requestは以下のとおりです。
 
-### ライブラリアップデート
-<% library_updates&.each do |pr| -%>
-<%=  pr.to_checklist_item %>
-<% end -%>
+| 作成条件 | Pull Request |
+| --- | --- |
+| release to master のマージ | master to release |
+| master to release のマージ | release to patch |
+| release to patch のマージ | patch to develop |

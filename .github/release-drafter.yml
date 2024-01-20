@@ -11,8 +11,7 @@ categories:
     collapse-after: 3 # 3件以上のPRがある場合は折りたたむ
     labels: 
       - 'maintenance'
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+change-template: '- $TITLE (#$NUMBER)'
 exclude-labels: 
   - 'dependencies'
   - 'release'

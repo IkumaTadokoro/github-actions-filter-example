@@ -11,10 +11,10 @@ categories:
     collapse-after: 3 # 3件以上のPRがある場合は折りたたむ
     labels: 
       - 'maintenance'
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+change-template: '- $TITLE (#$NUMBER)'
 exclude-labels: 
   - 'dependencies'
+  - 'release'
 version-resolver:
   major:
     labels:
@@ -29,14 +29,14 @@ version-resolver:
 autolabeler:
   - label: 'feature'
     title:
-      - '/feat/i'
+      - '/^(feat|feat\(.*\))/i'
   - label: 'bugfix'
     title:
-      - '/fix/i'
+      - '/^(fix|fix\(.*\)).*/i'
   # titleがfeat, fixのいずれにもマッチしない場合
   - label: 'maintenance'
     title:
-      - '/^(?!feat|fix).*/i'
-header: |
+      - '/^(?!feat|!feat\(.*\)|fix|fix\(.*\)).*/i'
+template: |
   ## リリースアナウンス👨‍🚀
   リリースを実施しました！変更内容は以下の通りです！📝

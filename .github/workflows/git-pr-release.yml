@@ -1,13 +1,18 @@
 name: git-pr-release
 on:
-  push:
+  pull_request:
     branches:
       - develop
       - patch
       - release
+    types: [closed]
 
 jobs:
   git-pr-release:
+    # 1. develop ブランチに patch ブランチ以外のブランチ（=バックポート）からPRがマージされた場合: develop to patch
+    # 2. patch ブランチに release 以外のブランチ（=バックポート）からPRがマージされた場合: patch to release
+    # 3. release ブランチに patch からPRがマージされた場合: release to main
+    if: github.event.pull_request.merged == true && ((github.base_ref == 'develop' && github.head_ref != 'patch') || (github.base_ref == 'patch' && github.head_ref != 'release') || (github.base_ref == 'release' && github.head_ref == 'patch'))
     runs-on: ubuntu-latest
     permissions:
       contents: read

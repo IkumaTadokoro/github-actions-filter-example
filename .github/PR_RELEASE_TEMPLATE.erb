@@ -1,4 +1,12 @@
 <%= "chore(release): #{ENV.fetch('GIT_PR_RELEASE_BRANCH_STAGING')} to #{ENV.fetch('GIT_PR_RELEASE_BRANCH_PRODUCTION')}" %>
+<% if ENV.fetch('GIT_PR_RELEASE_BRANCH_PRODUCTION') == 'main' %>
+> [!NOTE]
+> この Pull Request のマージ後、リリースノートの Draft が自動作成されます。
+> バージョンと内容を確認し、リリースノートを公開してください。 
+> 
+> [📔Releases](https://github.com/IkumaTadokoro/github-actions-filter-example/releases)
+
+<% end %>
 ## リリース内容
 <% library_updates, rest = pull_requests.partition { |pr| pr.user.login == 'dependabot' } %>
 <% prs = rest.group_by { |pr| pr.title.split(':')[0] } %>

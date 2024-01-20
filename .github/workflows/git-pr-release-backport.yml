@@ -3,15 +3,19 @@ on:
   pull_request:
     branches:
       - main
+      - release
       - patch
     types: [closed]
 
 jobs:
   git-pr-release:
-    if: ${{
-      github.base_ref == 'main' && github.head_ref == 'release' ||
-      github.base_ref == 'patch' && github.head_ref == 'release'
-      }}
+    # 1. main ブランチに hotfix もしくは release ブランチからの PR がマージされた場合： main to release
+    # 2. release ブランチに main ブランチからの PR がマージされた場合： release to patch
+    # 3. patch ブランチに release ブランチからの PR がマージされた場合： patch to develop
+    if:
+      (github.event.pull_request.merged && github.base_ref == 'main' && (github.head_ref == 'release' || github.head_ref == 'hotfix')) ||
+      (github.event.pull_request.merged && github.base_ref == 'release' && github.head_ref == 'main') ||
+      (github.event.pull_request.merged && github.base_ref == 'patch' && github.head_ref == 'release')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -32,14 +36,12 @@ jobs:
       - name: Create PR
         run: git-pr-release
         env:
-          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_TOKEN: ${{ secrets.PAT }}
           GIT_PR_RELEASE_BRANCH_PRODUCTION: ${{
-            (github.base_ref == 'main' && github.ref_name == 'release') && 'patch' ||
-            (github.base_ref == 'patch' && github.ref_name == 'release') && 'develop'
+            github.base_ref == 'main' && 'release' ||
+            github.base_ref == 'release' && 'patch' ||
+            github.base_ref == 'patch' && 'develop'
             }}
-          GIT_PR_RELEASE_BRANCH_STAGING: ${{
-            (github.base_ref == 'main' && github.ref_name == 'release') && 'release' ||
-            (github.base_ref == 'patch' && github.ref_name == 'release') && 'patch'
-            }}
+          GIT_PR_RELEASE_BRANCH_STAGING: ${{ github.base_ref }}
           GIT_PR_RELEASE_LABELS: release
           GIT_PR_RELEASE_TEMPLATE: .github/PR_RELEASE_TEMPLATE_BACKPORT.erb

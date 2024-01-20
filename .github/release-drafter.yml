@@ -33,10 +33,9 @@ autolabeler:
   - label: 'bugfix'
     title:
       - '/^(fix|fix\(.*\)).*/i'
-  # titleがfeat, fixのいずれにもマッチしない場合
   - label: 'maintenance'
     title:
-      - '/^(?!feat|!feat\(.*\)|fix|fix\(.*\)).*/i'
+      - '/^(?!feat|!feat\(.*\)|fix|fix\(.*\)|chore\(backport\)|chore\(release\)).*/i'
 template: |
   ## リリースアナウンス👨‍🚀
   リリースを実施しました！変更内容は以下の通りです！📝

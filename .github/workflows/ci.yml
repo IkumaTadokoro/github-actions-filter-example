@@ -3,7 +3,6 @@ name: ci
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, review_requested]
 
 jobs:
   changes:

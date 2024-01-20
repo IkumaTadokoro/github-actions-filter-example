@@ -29,10 +29,10 @@ version-resolver:
 autolabeler:
   - label: 'feature'
     title:
-      - '/^feat/i'
+      - '/^feat.*/i'
   - label: 'bugfix'
     title:
-      - '/^fix/i'
+      - '/^fix.*/i'
   # titleがfeat, fixのいずれにもマッチしない場合
   - label: 'maintenance'
     title:

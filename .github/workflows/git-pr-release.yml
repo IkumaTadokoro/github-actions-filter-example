@@ -28,7 +28,7 @@ jobs:
       - name: Create PR
         run: git-pr-release
         env:
-          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_TOKEN: ${{ secrets.PAT }}
           GIT_PR_RELEASE_BRANCH_PRODUCTION: ${{
             github.ref_name == 'develop' && 'patch' ||
             github.ref_name == 'patch' && 'release' ||

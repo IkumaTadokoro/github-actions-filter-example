@@ -25,6 +25,10 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - name: echo env
+        run: |
+          echo "github.base_ref: ${{ github.base_ref }}"
+          echo "github.head_ref: ${{ github.head_ref }}"
       - name: Check out
         uses: actions/checkout@v4
         with:

@@ -16,7 +16,7 @@ exclude-labels:
   - 'dependencies'
   - 'release'
 replacers:
-  - search: '^.*: (.*)$'
+  - search: '/^.*: (.*)$/'
     replace: $1
 version-resolver:
   major:

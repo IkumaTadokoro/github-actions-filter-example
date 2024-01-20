@@ -15,6 +15,9 @@ change-template: '- $TITLE (#$NUMBER)'
 exclude-labels: 
   - 'dependencies'
   - 'release'
+replacers:
+  - search: '^.*: (.*)$'
+    replace: $1
 version-resolver:
   major:
     labels:

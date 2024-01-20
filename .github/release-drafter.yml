@@ -1,5 +1,6 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
+
 categories:
   - title: '🚀 機能追加'
     labels:
@@ -7,17 +8,17 @@ categories:
   - title: '🧯 バグ修正'
     labels:
       - 'bugfix'
-  - title: '🧰 技術メンテナンス'
-    collapse-after: 3 # 3件以上のPRがある場合は折りたたむ
+  - title: '🧰 メンテナンス'
+    collapse-after: 5 # 5件以上のPRがある場合は折りたたんで表示する。
     labels: 
       - 'maintenance'
+  - title: '📚 ライブラリアップデート'
+    collapse-after: 3 # 3件以上のPRがある場合は折りたたんで表示する。
+    labels:
+      - 'dependencies'
 change-template: '- $TITLE (#$NUMBER)'
-exclude-labels: 
-  - 'dependencies'
+exclude-labels: # 以下のラベルがついているPRはリリースノートに含めない。
   - 'release'
-replacers:
-  - search: '/^.*: (.*)$/'
-    replace: $1
 version-resolver:
   major:
     labels:
@@ -39,6 +40,9 @@ autolabeler:
   - label: 'maintenance'
     title:
       - '/^(?!feat|!feat\(.*\)|fix|fix\(.*\)|chore\(backport\)|chore\(release\)).*/i'
+  - label: 'patch'
+    branch:
+      - "hotfix"
 template: |
   ## リリースアナウンス👨‍🚀
   リリースを実施しました！変更内容は以下の通りです！📝

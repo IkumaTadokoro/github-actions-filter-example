@@ -51,6 +51,6 @@ jobs:
             github.base_ref == 'release' && 'main' ||
             github.base_ref == 'hotfix' && 'main'
             }}
-          GIT_PR_RELEASE_BRANCH_STAGING: ${{ github.base_ref == 'develop' }}
+          GIT_PR_RELEASE_BRANCH_STAGING: ${{ github.base_ref }}
           GIT_PR_RELEASE_LABELS: release
           GIT_PR_RELEASE_TEMPLATE: .github/PR_RELEASE_TEMPLATE.erb

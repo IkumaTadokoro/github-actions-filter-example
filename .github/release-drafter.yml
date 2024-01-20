@@ -40,3 +40,4 @@ autolabeler:
 template: |
   ## リリースアナウンス👨‍🚀
   リリースを実施しました！変更内容は以下の通りです！📝
+  $CHANGES

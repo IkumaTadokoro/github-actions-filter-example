@@ -12,10 +12,7 @@ jobs:
     # 1. main ブランチに hotfix もしくは release ブランチからの PR がマージされた場合： main to release
     # 2. release ブランチに main ブランチからの PR がマージされた場合： release to patch
     # 3. patch ブランチに release ブランチからの PR がマージされた場合： patch to develop
-    if:
-      (github.event.pull_request.merged && github.base_ref == 'main' && (github.head_ref == 'release' || github.head_ref == 'hotfix')) ||
-      (github.event.pull_request.merged && github.base_ref == 'release' && github.head_ref == 'main') ||
-      (github.event.pull_request.merged && github.base_ref == 'patch' && github.head_ref == 'release')
+    if: github.event.pull_request.merged == true && ((github.base_ref == 'main' && (github.head_ref == 'release' || github.head_ref == 'hotfix')) || (github.base_ref == 'release' && github.head_ref != 'main') || (github.base_ref == 'patch' && github.head_ref == 'release'))
     runs-on: ubuntu-latest
     permissions:
       contents: read

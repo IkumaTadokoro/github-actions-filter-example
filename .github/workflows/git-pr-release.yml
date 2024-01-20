@@ -5,6 +5,7 @@ on:
       - develop
       - patch
       - release
+      - hotfix
     types: [closed]
 
 jobs:
@@ -12,7 +13,13 @@ jobs:
     # 1. develop ブランチに patch ブランチ以外のブランチ（=バックポート）からPRがマージされた場合: develop to patch
     # 2. patch ブランチに release 以外のブランチ（=バックポート）からPRがマージされた場合: patch to release
     # 3. release ブランチに patch からPRがマージされた場合: release to main
-    if: github.event.pull_request.merged == true && ((github.base_ref == 'develop' && github.head_ref != 'patch') || (github.base_ref == 'patch' && github.head_ref != 'release') || (github.base_ref == 'release' && github.head_ref == 'patch'))
+    # 4. hotfix ブランチに PRがマージされた場合: hotfix to main
+    if: github.event.pull_request.merged == true && (
+      (github.base_ref == 'develop' && github.head_ref != 'patch') ||
+      (github.base_ref == 'patch' && github.head_ref != 'release') ||
+      (github.base_ref == 'release' && github.head_ref == 'patch') ||
+      github.base_ref == 'hotfix'
+      )
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -37,7 +44,8 @@ jobs:
           GIT_PR_RELEASE_BRANCH_PRODUCTION: ${{
             github.ref_name == 'develop' && 'patch' ||
             github.ref_name == 'patch' && 'release' ||
-            github.ref_name == 'release' && 'main'
+            github.ref_name == 'release' && 'main' ||
+            github.ref_name == 'hotfix' && 'main'
             }}
           GIT_PR_RELEASE_BRANCH_STAGING: ${{ github.ref_name }}
           GIT_PR_RELEASE_LABELS: release
